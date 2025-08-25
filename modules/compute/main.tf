@@ -21,6 +21,13 @@ resource "aws_instance" "web" {
   subnet_id     = var.public_subnet_id
   vpc_security_group_ids = [aws_security_group.web.id]
 
-  user_data = var.user_data
+  user_data = <<-EOF
+              #!/bin/bash
+              yum update -y
+              yum install -y httpd
+              systemctl start httpd
+              systemctl enable httpd
+              echo "<h1>Hello ACME - IaC OK</h1>" > /var/www/html/index.html
+            EOF
   tags      = var.tags
 }
