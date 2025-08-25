@@ -3,6 +3,7 @@
 
 Overview
 
+
 This repository demonstrates how ACME Financial Services can migrate from manual cloud changes and ad-hoc scripts to a secure, auditable, and automated Infrastructure as Code (IaC) workflow using Terraform Cloud (TFC).
 
 The focus is on:
