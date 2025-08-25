@@ -1,13 +1,16 @@
 variable "aws_region"   { type = string }
 variable "cidr_block"   { type = string }
 variable "global_tags" {
-  type = map(string)
+  description = "Tags obrigatórias aplicadas a todos os recursos"
+  type        = map(string)
+
+  # exige que Owner, CostCenter, Project e Env existam e não estejam vazios
   validation {
-    condition = contains(keys(var.global_tags), "Owner")
-            && contains(keys(var.global_tags), "CostCenter")
-            && contains(keys(var.global_tags), "Project")
-            && contains(keys(var.global_tags), "Env")
-    error_message = "global_tags must include Owner, CostCenter, Project and Env."
+    condition = alltrue([
+      for k in ["Owner", "CostCenter", "Project", "Env"] :
+      length(trim(lookup(var.global_tags, k, ""))) > 0
+    ])
+    error_message = "global_tags must include non-empty Owner, CostCenter, Project and Env."
   }
 }
 variable "demo_message" {
