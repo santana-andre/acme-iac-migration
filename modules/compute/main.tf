@@ -37,7 +37,7 @@ user_data = <<-EOF
   fi
 
   # Página HTML estilizada
-  cat > /var/www/html/index.html <<HTML
+  cat > /var/www/html/index.html <<'HTML'
   <!DOCTYPE html>
   <html lang="en">
   <head>
