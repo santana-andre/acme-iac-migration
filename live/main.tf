@@ -10,6 +10,5 @@ module "compute" {
   public_subnet_id = module.network.public_subnet_id
   instance_type    = "t2.micro"
   tags             = var.global_tags
-  demo_message      = var.demo_message
-
+  demo_message     = var.demo_message
 }
