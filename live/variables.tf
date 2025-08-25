@@ -1,3 +1,3 @@
-output "ec2_public_ip" {
-  value = module.compute.public_ip
-}
+variable "aws_region"   { type = string }
+variable "cidr_block"   { type = string }
+variable "global_tags"  { type = map(string) }
