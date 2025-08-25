@@ -74,7 +74,5 @@ resource "aws_instance" "web" {
               </html>
               EOT
             EOF
-
-
   tags = var.tags
 }
