@@ -89,3 +89,4 @@ EOF
       condition     = contains(keys(var.tags), "CostCenter")
       error_message = "Tag 'CostCenter' é obrigatória (enforced by module)."
 }
+}
