@@ -11,11 +11,5 @@ module "compute" {
   instance_type    = "t2.micro"
   tags             = var.global_tags
   demo_message      = var.demo_message
-  user_data        = <<-EOF
-                      #!/bin/bash
-                      yum update -y
-                      yum install -y httpd
-                      echo "Hello ACME - IaC OK" > /var/www/html/index.html
-                      systemctl enable httpd --now
-                      EOF
+
 }
