@@ -1,0 +1,7 @@
+import "tfplan/v2" as plan
+
+main = rule {
+  all resources as r {
+    r.applied.tags contains "Owner" and r.applied.tags contains "CostCenter"
+  }
+}
