@@ -21,7 +21,6 @@ resource "aws_instance" "web" {
   subnet_id              = var.public_subnet_id
   vpc_security_group_ids = [aws_security_group.web.id]
 
-
 user_data = <<-EOF
   #!/bin/bash
   set -euxo pipefail
@@ -85,4 +84,8 @@ EOF
 
 
   tags = var.tags
+   lifecycle {
+    precondition {
+      condition     = contains(keys(var.tags), "CostCenter")
+      error_message = "Tag 'CostCenter' é obrigatória (enforced by module)."
 }
