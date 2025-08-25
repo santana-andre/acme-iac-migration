@@ -25,7 +25,7 @@ user_data = <<-EOF
   #!/bin/bash
   set -euxo pipefail
 
-  # Instala Apache (funciona em Ubuntu e Amazon Linux 2)
+ 
   if command -v apt-get >/dev/null 2>&1; then
     apt-get update -y
     apt-get install -y apache2
@@ -36,7 +36,7 @@ user_data = <<-EOF
     systemctl enable --now httpd
   fi
 
-  # Página HTML estilizada
+  
   cat > /var/www/html/index.html <<'HTML'
   <!DOCTYPE html>
   <html lang="en">
