@@ -1,7 +1,32 @@
-import "tfplan/v2" as plan
+import "tfplan/v2" as tfplan
+
+# Tags obrigatórias
+required = ["Owner", "CostCenter", "Project", "Env"]
+
+# Apenas tipos tagueáveis que você está criando
+taggable_types = [
+  "aws_vpc",
+  "aws_subnet",
+  "aws_security_group",
+  "aws_instance",
+  "aws_route_table",
+  "aws_internet_gateway"
+]
+
+# Recursos que serão validados (create/update)
+changes = tfplan.resource_changes.where r {
+  (r.change.actions contains "create" or r.change.actions contains "update") and
+  (r.type in taggable_types)
+}
 
 main = rule {
-  all resources as r {
-    r.applied.tags contains "Owner" and r.applied.tags contains "CostCenter"
+  all changes as r {
+    # Em tfplan/v2 as tags ficam no "after"
+    tags = r.change.after.tags else {}
+
+    # Exige todas as chaves e valores não vazios
+    all required as k {
+      (tags contains k) and (length(trim(tags[k])) > 0)
+    }
   }
 }
