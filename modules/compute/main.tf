@@ -25,7 +25,6 @@ user_data = <<-EOF
   #!/bin/bash
   set -euxo pipefail
 
-  # Detecta distro e instala Apache
   if command -v apt-get >/dev/null 2>&1; then
     apt-get update -y
     apt-get install -y apache2
@@ -36,7 +35,6 @@ user_data = <<-EOF
     systemctl enable --now httpd
   fi
 
-  # Página HTML estilosa (usa a variável Terraform ${var.demo_message})
   cat > /var/www/html/index.html <<'HTML'
   <!DOCTYPE html>
   <html lang="en">
@@ -45,48 +43,29 @@ user_data = <<-EOF
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Terraform Demo</title>
     <style>
-      :root {
-        --accent: #00d4ff;
-        --bg1: #0f2027; --bg2: #203a43; --bg3: #2c5364;
-      }
-      * { box-sizing: border-box }
-      body {
-        margin: 0; min-height: 100vh; display: grid; place-items: center;
-        background: linear-gradient(135deg, var(--bg1), var(--bg2), var(--bg3));
-        font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
-        color: #e8f1f2;
-      }
-      .card {
-        background: rgba(0,0,0,.45); backdrop-filter: blur(10px);
-        padding: 44px 36px; border-radius: 20px; width: min(760px, 92vw);
-        box-shadow: 0 12px 32px rgba(0,0,0,.35); border: 1px solid rgba(255,255,255,.08);
-        text-align: center;
-      }
-      .logo {
-        display: inline-block; padding: 8px 12px; border-radius: 12px;
-        background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.08);
-        margin-bottom: 10px; font-size: 13px; letter-spacing: .3px;
-        animation: float 6s ease-in-out infinite;
-      }
-      h1 {
-        margin: 4px 0 10px; font-size: clamp(28px, 6vw, 44px); line-height: 1.1;
-        color: var(--accent); text-shadow: 0 2px 16px rgba(0,212,255,.25);
-      }
-      p { margin: 0; color: #c9d6df; font-size: clamp(14px, 2.2vw, 18px) }
-      .badges { margin-top: 16px; display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; }
-      .badge {
-        padding: 6px 10px; border-radius: 999px; background: rgba(255,255,255,.08);
-        border: 1px solid rgba(255,255,255,.12); font-size: 12px;
-      }
-      .footer { margin-top: 22px; opacity: .7; font-size: 12px }
-      @keyframes float { from { transform: translateY(0) } 50% { transform: translateY(-6px) } to { transform: translateY(0) } }
+      :root { --accent:#00d4ff; --bg1:#0f2027; --bg2:#203a43; --bg3:#2c5364; }
+      body { margin:0; min-height:100vh; display:grid; place-items:center;
+             background:linear-gradient(135deg,var(--bg1),var(--bg2),var(--bg3));
+             font-family:system-ui,Segoe UI,Roboto,Ubuntu,Arial,sans-serif; color:#e8f1f2; }
+      .card { background:rgba(0,0,0,.45); backdrop-filter:blur(10px); padding:44px 36px;
+              border-radius:20px; width:min(760px,92vw); box-shadow:0 12px 32px rgba(0,0,0,.35);
+              border:1px solid rgba(255,255,255,.08); text-align:center; }
+      .logo { display:inline-block; padding:8px 12px; border-radius:12px; background:rgba(255,255,255,.06);
+              border:1px solid rgba(255,255,255,.08); margin-bottom:10px; font-size:13px; letter-spacing:.3px; }
+      h1 { margin:4px 0 10px; font-size:clamp(28px,6vw,44px); line-height:1.1;
+           color:var(--accent); text-shadow:0 2px 16px rgba(0,212,255,.25); }
+      p { margin:0; color:#c9d6df; font-size:clamp(14px,2.2vw,18px) }
+      .badges { margin-top:16px; display:flex; gap:10px; flex-wrap:wrap; justify-content:center; }
+      .badge { padding:6px 10px; border-radius:999px; background:rgba(255,255,255,.08);
+               border:1px solid rgba(255,255,255,.12); font-size:12px; }
+      .footer { margin-top:22px; opacity:.7; font-size:12px }
     </style>
   </head>
   <body>
     <div class="card">
       <div class="logo">Terraform Cloud • AWS</div>
       <h1>${var.demo_message}</h1>
-      <p>Provisionado automaticamente com <strong>Infra as Code</strong>. Mudanças passam por <em>Plan → Policy → Apply</em>.</p>
+      <p>Provisionado com <strong>Infra as Code</strong> (Plan → Policy → Apply).</p>
       <div class="badges">
         <span class="badge">Workspace: acme-dev</span>
         <span class="badge">Region: us-east-1</span>
@@ -98,5 +77,6 @@ user_data = <<-EOF
   </html>
   HTML
 EOF
+
   tags = var.tags
 }
